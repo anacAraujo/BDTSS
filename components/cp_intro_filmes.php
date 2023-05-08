@@ -1,4 +1,7 @@
 <div class="row">
+    <div class="col-2">
+        <a class="btn btn-info my-3" href="index.php">Voltar</a>
+    </div>
     <h1>Filmes</h1>
 
     <div class="col-8">
@@ -10,7 +13,7 @@
     </div>
 
     <!-- Input de pesquisa -->
-    <form class="col-4" action = "#" method = "post">
+    <form class="col-4" action="#" method="post">
         <div class="row">
             <div class="col-9">
                 <input class="form-control" id="pesquisa" name="pesquisa" type="text" placeholder="Pesquisa" aria-label="Pesquisa" />
