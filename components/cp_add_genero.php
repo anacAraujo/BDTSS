@@ -4,6 +4,8 @@
             <input type="text" class="form-control" id="genero" placeholder="Introduzir o género" name="genero" required>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
-        </div><button type="submit" class="btn btn-primary">Adicionar</button>
+        </div>
+        <a class="btn btn-info my-3" href="index.php">Voltar</a>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
     </form>
 </div>
