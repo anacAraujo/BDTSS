@@ -26,7 +26,7 @@ require_once "./connections/connection.php";
         mysqli_stmt_prepare($stmt, $query);
 
         //BIND DOS PARÂMETROS
-        mysqli_stmt_bind_param($stmt, 'i', $genero);
+        mysqli_stmt_bind_param($stmt, 'i', $id);
 
         //Executa o statement
         mysqli_stmt_execute($stmt);
