@@ -11,7 +11,6 @@ require_once "./connections/connection.php";
         <?php
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $_SESSION['id'] = $id;
         }
 
         //QUERY PARA IR BUSCAR O VALOR
@@ -27,7 +26,7 @@ require_once "./connections/connection.php";
         mysqli_stmt_prepare($stmt, $query);
 
         //BIND DOS PARÂMETROS
-        mysqli_stmt_bind_param($stmt, 'i', $id);
+        mysqli_stmt_bind_param($stmt, 'i', $genero);
 
         //Executa o statement
         mysqli_stmt_execute($stmt);
@@ -42,7 +41,7 @@ require_once "./connections/connection.php";
         ?>
 
         <div class="row">
-            <form class="col-6" action="./scripts/generos/sc_update_genero.php" method="post" class="was-validated">
+            <form class="col-6" action="./scripts/generos/sc_update_genero.php?id=<?php echo $id; ?>" method="post" class="was-validated">
                 <div class="mb-3 mt-3">
                     <label for="uname" class="form-label">Género:</label>
                     <input type="text" class="form-control" name="genero" value="<?= $genero ?>" placeholder="<?php echo $genero ?>" required>
