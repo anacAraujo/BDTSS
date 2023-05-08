@@ -12,9 +12,6 @@ if (isset($_GET["id"])) {
     // Store values
     $id_filmes = (int) $_GET["id"];
 
-    // We need the function!
-    require_once("./connections/connection.php");
-
     // Create a new DB connection
     $link = new_db_connection();
 
