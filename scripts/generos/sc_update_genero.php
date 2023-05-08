@@ -1,12 +1,11 @@
 <?php
 session_start();
-if (isset($_POST["nome_cidade"]) && ($_POST["nome_cidade"] != "") && (isset($_SESSION["id_cidades"]))) {
-    $nome_cidade = $_POST["nome_cidade"];
-    $id = $_SESSION["id_cidades"];
-    unset($_SESSION['id_cidades']);
+if (isset($_POST["genero"]) && ($_POST["genero"] != "") && (isset($_GET["id"]))) {
+    $genero_atualizado = $_POST["genero"];
+    $id = $_GET["id"];
 
     // We need the function!
-    require_once("connections/connection.php");
+    require_once("../../connections/connection.php");
 
     // Create a new DB connection
     $link = new_db_connection();
@@ -14,19 +13,19 @@ if (isset($_POST["nome_cidade"]) && ($_POST["nome_cidade"] != "") && (isset($_SE
     /* create a prepared statement */
     $stmt = mysqli_stmt_init($link);
 
-    $query = "UPDATE cidades
-              SET nome_cidade = ?
-              WHERE id_cidades = ?";
+    $query = "UPDATE generos
+              SET tipo = ?
+              WHERE id_generos = ?";
 
     if (mysqli_stmt_prepare($stmt, $query)) {
         /* Bind paramenters */
-        mysqli_stmt_bind_param($stmt, "si", $nome_cidade, $id);
+        mysqli_stmt_bind_param($stmt, "si", $genero_atualizado, $id);
         /* execute the prepared statement */
         if (!mysqli_stmt_execute($stmt)) {
             echo "Error:" . mysqli_stmt_error($stmt);
         } else {
             /* Update done */
-            header("Location: cidades_list.php");
+            header("Location: ../../generos.php");
         }
     } else {
         echo ("Error description: " . mysqli_error($link));
@@ -35,4 +34,5 @@ if (isset($_POST["nome_cidade"]) && ($_POST["nome_cidade"] != "") && (isset($_SE
     mysqli_stmt_close($stmt);
     /* close connection */
     mysqli_close($link);
-}
+} else
+    echo "erro no POST";
