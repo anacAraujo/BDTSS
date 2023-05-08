@@ -57,7 +57,7 @@ if (isset($_GET["id"])) {
                                     </div>
                                 </div>
                                 <a class="d-block btn btn-primary mt-4" href="<?php echo $url_trailer ?>" target="_blank">Trailer</a>
-                                <a class="d-block btn btn-outline-primary mt-4" href="<?php $url_imdb ?>" target="_blank">IMDb</a>
+                                <a class="d-block btn btn-outline-primary mt-4" href="<?php echo $url_imdb ?>" target="_blank">IMDb</a>
                             </div>
                         </div>
                     </div>
