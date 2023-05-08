@@ -1,6 +1,6 @@
 <?php
 session_start();
-var_dump($_POST);
+//var_dump($_POST);
 
 if (isset($_POST["titulo"]) && ($_POST["titulo"] != "") && isset($_POST["sinopse"]) && ($_POST["sinopse"] != "") && isset($_POST["ano"]) && ($_POST["ano"] != "") && isset($_POST["genero"]) && ($_POST["genero"] != "") && isset($_POST["url_imdb"]) && isset($_POST["url_trailer"])) {
     $imdb = "";
@@ -26,7 +26,7 @@ if (isset($_POST["titulo"]) && ($_POST["titulo"] != "") && isset($_POST["sinopse
     $url_trailer = $trailer;
     $id_user = $_SESSION['id'];
 
-    var_dump($capa);
+    //var_dump($capa);
 
     // We need the function!
     require_once("../../connections/connection.php");
