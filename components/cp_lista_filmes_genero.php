@@ -33,7 +33,7 @@ require_once "./connections/connection.php";
 
                     mysqli_stmt_store_result($stmt);
 
-                    if (mysqli_stmt_num_rows($stmt) > 0 ) {
+                    if (mysqli_stmt_num_rows($stmt) > 0) {
 
                         while (mysqli_stmt_fetch($stmt)) {
                             $caminho = "./imgs/capas/" . $capa;
@@ -69,7 +69,7 @@ require_once "./connections/connection.php";
 
             ?>
 
-            
+
             <!-- <div class="col-md-4 mb-md-0 pb-5">
                     <div class="card pb-2 h-100 shadow rounded">
                         <div class="capas-preview" style="background-image: url({Capa})"></div>
