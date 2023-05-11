@@ -4,13 +4,12 @@ include_once "connections/connection.php";
 ?>
 
 <?php
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header('Location: filmes.php');
-}
+
 // Verify the query string requirements
 if (isset($_GET["id"])) {
     // Store values
     $id_filmes = (int) $_GET["id"];
+
 
     // Create a new DB connection
     $link = new_db_connection();
@@ -28,6 +27,7 @@ if (isset($_GET["id"])) {
 
         // Execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_store_result($stmt);
             // Bind result variables
             mysqli_stmt_bind_result($stmt, $titulo, $ano, $sinopse, $capa, $url_imdb, $url_trailer, $tipo);
 
@@ -45,7 +45,34 @@ if (isset($_GET["id"])) {
                             <div class="col detalhes">
                                 <h4 class="text-primary">
                                     <span class="text-black-50"><?php echo $ano ?></span> | <?php echo $tipo ?>
+
+                                    <?php
+                                    if (isset($_SESSION['id'])) {
+                                        $query_2 = "SELECT ref_utilizadores, ref_filmes FROM filmes_favoritos WHERE  ref_utilizadores = ? AND ref_filmes = ?";
+                                        $stmt_2 = mysqli_stmt_init($link);
+                                        $user = $_SESSION['id'];
+
+                                        // Execute the prepared statement 
+                                        if (mysqli_stmt_prepare($stmt_2, $query_2)) {
+                                            // Bind result variables
+                                            mysqli_stmt_bind_param($stmt_2, "ii", $user, $id_filmes);
+                                            mysqli_stmt_execute($stmt_2);
+
+                                            mysqli_stmt_store_result($stmt_2);
+
+                                            // Verifica se não há favoritos
+                                            if (mysqli_stmt_num_rows($stmt_2) == 0) {
+                                                // Adiciona Favorito
+                                                echo '<a href="scripts/favoritos/sc_add_favorito.php?id=' . $id_filmes . '"><b><i class="fa-sharp fa-regular fa-heart"></i></b></a>';
+                                            } else {
+                                                // Remove Favorito
+                                                echo '<a href="scripts/favoritos/sc_delete_favorito.php?id=' . $id_filmes . '"><b><i class="fa-sharp fa-solid fa-heart"></i></b></a>';
+                                            }
+                                        }
+                                    }
+                                    ?>
                                 </h4>
+
                                 <div class="card pb-2 mt-4 shadow rounded">
                                     <div class="card-body">
                                         <h4 class="text-uppercase text-primary m-0 mt-2">Sinopse</h4>
@@ -81,4 +108,5 @@ if (isset($_GET["id"])) {
     // Close connection
     mysqli_close($link);
 }
+
 ?>
