@@ -14,7 +14,8 @@ include_once "connections/connection.php";
             $link = new_db_connection();
             $stmt = mysqli_stmt_init($link);
 
-            $query = "SELECT id_generos, tipo FROM generos";
+            $query = "SELECT id_generos, tipo 
+                        FROM generos";
             ?>
             <form class="col-6" action="./scripts/filmes/sc_add_filme.php" method="post" class="was-validated">
                 <div class="mb-3 mt-3"><label for="uname" class="form-label">Título:*</label><input type="text" class="form-control" id="titulo" value="" name="titulo" required>
