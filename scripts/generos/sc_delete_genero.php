@@ -1,6 +1,6 @@
 <?php
 require_once "../../connections/connection.php";
-var_dump($_GET);
+
 if (isset($_GET['id'])) {
     $id_generos = $_GET['id'];
 

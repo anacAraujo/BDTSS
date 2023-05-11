@@ -4,6 +4,12 @@
 if (isset($_POST["genero"]) && ($_POST["genero"] != "")) {
     $genero = $_POST["genero"];
 
+    // Check if the length is at least 3 characters
+    if (strlen($genero) < 3) {
+        header("Location: ../../generos.php?error=tooshort");
+        return; // stop execution
+    }
+
     // We need the function!
     require_once("../../connections/connection.php");
 
