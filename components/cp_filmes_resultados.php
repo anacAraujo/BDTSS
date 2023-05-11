@@ -7,7 +7,7 @@ include_once "connections/connection.php";
     <div class="container px-lg-5 pt-3">
         <!-- Intro -->
         <?php
-        include_once "./components/cp_intro_filmes.php";
+        include_once "cp_intro_filmes.php";
         ?>
         <!-- Listar filmes -->
         <div class="row">
@@ -37,27 +37,28 @@ include_once "connections/connection.php";
                         // Bind result variables
                         mysqli_stmt_bind_result($stmt, $id, $titulo, $capa, $genero);
 
-                        // Fetch values
-                        //  if (mysqli_stmt_fetch($stmt)) { "utilizar mysqli num rows"
-                        while (mysqli_stmt_fetch($stmt)) {
+                        mysqli_stmt_store_result($stmt);
+
+                        if (mysqli_stmt_num_rows($stmt) == 0) {
+                            echo "Não existem filmes correspondentes!";
+                        } else {
+                            // Fetch values
+                            while (mysqli_stmt_fetch($stmt)) {
             ?>
-                            <div class="col-md-4 mb-md-0 pb-5">
-                                <div class="card pb-2 h-100 shadow rounded">
-                                    <div class="capas-preview" style="background-image: url(<?php echo "imgs/capas/" . $capa; ?>)"></div>
-                                    <div class="card-body text-center">
-                                        <h4 class="text-uppercase m-0 mt-2"><?php echo "<h2>$titulo</h2>"; ?></h4>
-                                        <hr class="my-3 mx-auto" />
-                                        <div class="tipo-filme mb-0 small text-black-50"><?php echo "<p>$genero</p>"; ?></div>
-                                        <a href="filme_detail.php?id=<?php echo $id; ?>" class="mt-2 btn btn-outline-primary"><b><i class="fas fa-plus text-primary"></i></b></a>
+                                <div class="col-md-4 mb-md-0 pb-5">
+                                    <div class="card pb-2 h-100 shadow rounded">
+                                        <div class="capas-preview" style="background-image: url(<?php echo "imgs/capas/" . $capa; ?>)"></div>
+                                        <div class="card-body text-center">
+                                            <h4 class="text-uppercase m-0 mt-2"><?php echo "<h2>$titulo</h2>"; ?></h4>
+                                            <hr class="my-3 mx-auto" />
+                                            <div class="tipo-filme mb-0 small text-black-50"><?php echo "<p>$genero</p>"; ?></div>
+                                            <a href="filme_detail.php?id=<?php echo $id; ?>" class="mt-2 btn btn-outline-primary"><b><i class="fas fa-plus text-primary"></i></b></a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
             <?php
+                            }
                         }
-                        /*  } else {
-                            ?>
-                            <div class="alert-warningp-4">O filme que procura não existe!</div><a class="btn btn-info mt-4" href="filmes.php">Voltar</a>
-            <?php*/
                     } else {
                         // Execute error
                         echo "Error: " . mysqli_stmt_error($stmt);
@@ -71,8 +72,6 @@ include_once "connections/connection.php";
 
                 // Close connection
                 mysqli_close($link);
-            } else {
-                echo "<p>Não existem files com esse nome!</p>";
             }
             ?>
         </div>
