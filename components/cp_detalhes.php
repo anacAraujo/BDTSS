@@ -63,12 +63,16 @@ if (isset($_GET["id"])) {
                                             // Verifica se não há favoritos
                                             if (mysqli_stmt_num_rows($stmt_2) == 0) {
                                                 // Adiciona Favorito
-                                                echo '<a href="scripts/favoritos/sc_add_favorito.php?id=' . $id_filmes . '"><b><i class="fa-sharp fa-regular fa-heart"></i></b></a>';
+                                                echo '<a href="scripts/favoritos/sc_add_favorito.php?id=' . $id_filmes . '"><b><i class="fa-sharp fa-regular fa-heart  mx-2"></i></b></a>';
                                             } else {
                                                 // Remove Favorito
-                                                echo '<a href="scripts/favoritos/sc_delete_favorito.php?id=' . $id_filmes . '"><b><i class="fa-sharp fa-solid fa-heart"></i></b></a>';
+                                                echo '<a href="scripts/favoritos/sc_delete_favorito.php?id=' . $id_filmes . '"><b><i class="fa-sharp fa-solid fa-heart  mx-2"></i></b></a>';
                                             }
                                         }
+                                    }
+
+                                    if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "1") {
+                                        echo '<a href="edit_filme.php?id=' . $id_filmes . '"><b><i class="fa-solid fa-pen-to-square mx-2"></i></b></a>';
                                     }
                                     ?>
                                 </h4>
@@ -78,6 +82,7 @@ if (isset($_GET["id"])) {
                                         <h4 class="text-uppercase text-primary m-0 mt-2">Sinopse</h4>
                                         <hr class="my-3 mx-auto" />
                                         <p class="tipo-filme mb-0"><?php echo $sinopse ?></p>
+
                                     </div>
                                 </div>
                                 <a class="d-block btn btn-primary mt-4" href="<?php echo $url_trailer ?>" target="_blank">Trailer</a>
