@@ -28,7 +28,6 @@ require_once "./connections/connection.php";
                         echo ' <a href = "update_genero.php?id=' . $id_generos . '">Editar</a>';
                         echo ' <a href = "scripts/generos/sc_delete_genero.php?id=' . $id_generos . '">X</a>';
                     }
-
                     echo '</h3>';
                 }
 
@@ -50,11 +49,12 @@ require_once "./connections/connection.php";
                 if ($_GET['error'] == "tooshort") {
                     echo "Tem que ter mais que três caracteres.";
                 }
+                if ($_GET['error'] == "erro2") {
+                    echo "Este genero tem filmes associados. Não o pode apagar.";
+                }
             }
             include_once "./components/cp_add_genero.php";
         }
-
-
         ?>
 
     </div>
