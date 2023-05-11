@@ -45,7 +45,12 @@ require_once "./connections/connection.php";
         <!-- Inserir genero -->
         <?php
 
-        if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == 1) {
+        if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "1") {
+            if (isset($_GET['error']) && $_GET['error'] != "") {
+                if ($_GET['error'] == "tooshort") {
+                    echo "Tem que ter mais que três caracteres.";
+                }
+            }
             include_once "./components/cp_add_genero.php";
         }
 
