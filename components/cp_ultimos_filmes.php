@@ -20,7 +20,11 @@ include_once "connections/connection.php";
             $stmt = mysqli_stmt_init($link);
 
             // Define the query
-            $query = "SELECT id_filmes, titulo, capa , tipo FROM filmes INNER JOIN generos ON generos.id_generos = filmes.ref_generos ORDER BY ano DESC LIMIT 3;";
+            $query = "SELECT id_filmes, titulo, capa , tipo 
+                        FROM filmes 
+                        INNER JOIN generos 
+                        ON generos.id_generos = filmes.ref_generos 
+                        ORDER BY ano DESC LIMIT 3;";
 
             // Prepare the statement
             if (mysqli_stmt_prepare($stmt, $query)) {
