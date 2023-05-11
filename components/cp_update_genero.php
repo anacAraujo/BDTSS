@@ -37,7 +37,6 @@ require_once "./connections/connection.php";
         //VAI BUSCAR OS DADOS
         mysqli_stmt_fetch($stmt);
 
-        //var_dump($genero);
         ?>
 
         <div class="row">
