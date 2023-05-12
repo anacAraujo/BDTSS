@@ -10,7 +10,6 @@ if (isset($_GET["id"])) {
     // Store values
     $id_filmes = (int) $_GET["id"];
 
-
     // Create a new DB connection
     $link = new_db_connection();
 
@@ -18,7 +17,10 @@ if (isset($_GET["id"])) {
     $stmt = mysqli_stmt_init($link);
 
     // Define the query
-    $query = "SELECT titulo, ano, sinopse, capa, url_imdb, url_trailer, tipo FROM filmes INNER JOIN generos ON generos.id_generos = filmes.ref_generos WHERE id_filmes = ?";
+    $query = "SELECT titulo, ano, sinopse, capa, url_imdb, url_trailer, tipo 
+    FROM filmes 
+    INNER JOIN generos 
+    ON generos.id_generos = filmes.ref_generos WHERE id_filmes = ?";
 
     // Prepare the statement
     if (mysqli_stmt_prepare($stmt, $query)) {
@@ -73,6 +75,7 @@ if (isset($_GET["id"])) {
 
                                     if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "1") {
                                         echo '<a href="edit_filme.php?id=' . $id_filmes . '"><b><i class="fa-solid fa-pen-to-square mx-2"></i></b></a>';
+                                        echo '<a href="scripts/filmes/sc_delete_filme.php?id=' . $id_filmes . '"><b><i class="fa-solid fa-trash-can mx-2"></i></b></a>';
                                     }
                                     ?>
                                 </h4>
@@ -87,6 +90,60 @@ if (isset($_GET["id"])) {
                                 </div>
                                 <a class="d-block btn btn-primary mt-4" href="<?php echo $url_trailer ?>" target="_blank">Trailer</a>
                                 <a class="d-block btn btn-outline-primary mt-4" href="<?php echo $url_imdb ?>" target="_blank">IMDb</a>
+
+                                <h4 class="text-uppercase text-primary mt-5">Comentários</h4>
+                                <div class="card pb-2 mt-4 shadow rounded">
+                                    <div class="card-body">
+                                        <h4 class="text-uppercase text-primary m-0 mt-2">Comentários</h4>
+                                        <hr class="my-3 mx-auto" />
+
+                                        <?php
+                                        $query_3 = "SELECT comentario, nome 
+                                            FROM comentarios
+                                            INNER JOIN utilizadores
+                                            WHERE ref_filmes = ?";
+
+                                        $stmt_3 = mysqli_stmt_init($link);
+
+                                        // Execute the prepared statement 
+                                        if (mysqli_stmt_prepare($stmt_3, $query_3)) {
+                                            // Bind result variables
+                                            mysqli_stmt_bind_param($stmt_3, "i", $id_filmes);
+                                            mysqli_stmt_execute($stmt_3);
+
+                                            mysqli_stmt_store_result($stmt_3);
+
+                                            // Bind result variables
+                                            mysqli_stmt_bind_result($stmt_3, $comentario, $nome);
+
+                                            // Verifica se não há comentarios
+                                            if (mysqli_stmt_num_rows($stmt_3) == 0) {
+                                                echo 'Ainda sem comentários. Sê o primeiro!';
+                                            } else {
+                                                // Fetch values
+                                                while (mysqli_stmt_fetch($stmt_3)) {
+                                        ?>
+                                                    <p class="tipo-filme mb-0"><?php echo $nome . " - " . $comentario ?></p>
+                                        <?php
+                                                }
+                                            }
+                                        }
+                                        mysqli_stmt_close($stmt_3);
+                                        ?>
+                                    </div>
+                                </div>
+                                <?php
+                                if (isset($_SESSION['id'])) {
+                                ?>
+                                    <form action="./scripts/filmes/sc_comentar_filme.php?id=<?php echo $id_filmes; ?>" method="post">
+                                        <div class="mb-3 mt-3"><label for="uname" class="form-label">Comentar:</label><textarea class="form-control" id="comentario" value="" name="comentario" rows="5"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Adicionar comentário</button>
+                                    </form>
+                                <?php
+                                }
+
+                                ?>
                             </div>
                         </div>
                     </div>
