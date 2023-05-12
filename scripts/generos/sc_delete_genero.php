@@ -36,7 +36,7 @@ if (isset($_GET['id'])) {
                         /* Como prevenir? */
                         echo "Error:" . mysqli_stmt_error($stmt);
                     } else {
-                        /* Cidade apagada */
+                        /* Genero apagada */
                         header("Location: ../../generos.php");
                     }
                 } else {
