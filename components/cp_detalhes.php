@@ -101,6 +101,7 @@ if (isset($_GET["id"])) {
                                         $query_3 = "SELECT comentario, nome 
                                             FROM comentarios
                                             INNER JOIN utilizadores
+                                            ON ref_utilizadores = id_utilizadores
                                             WHERE ref_filmes = ?";
 
                                         $stmt_3 = mysqli_stmt_init($link);
@@ -136,7 +137,7 @@ if (isset($_GET["id"])) {
                                 if (isset($_SESSION['id'])) {
                                 ?>
                                     <form action="./scripts/filmes/sc_comentar_filme.php?id=<?php echo $id_filmes; ?>" method="post">
-                                        <div class="mb-3 mt-3"><label for="uname" class="form-label">Comentar:</label><textarea class="form-control" id="comentario" value="" name="comentario" rows="5"></textarea>
+                                        <div class="mb-3 mt-3"><label for="uname" class="form-label">Comentar:</label><textarea class="form-control" id="comentario" value="" name="comentario" rows="1"></textarea>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Adicionar comentário</button>
                                     </form>
