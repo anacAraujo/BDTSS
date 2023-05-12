@@ -19,8 +19,7 @@ if (isset($_GET['id']) && isset($_SESSION['id'])) {
             /* Como prevenir? */
             echo "Error:" . mysqli_stmt_error($stmt);
         } else {
-            /* Cidade apagada */
-
+            /* Favorito apagado */
             header("Location: ../../filmes.php");
         }
     } else {
