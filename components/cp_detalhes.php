@@ -1,9 +1,6 @@
 <?php
 // conexão à base de dados
 include_once "connections/connection.php";
-?>
-
-<?php
 
 // Verify the query string requirements
 if (isset($_GET["id"])) {
@@ -93,45 +90,53 @@ if (isset($_GET["id"])) {
 
                                 <h4 class="text-uppercase text-primary mt-5">Comentários</h4>
                                 <div class="card pb-2 mt-4 shadow rounded">
-                                    <div class="card-body">
-                                        <h4 class="text-uppercase text-primary m-0 mt-2">Comentários</h4>
-                                        <hr class="my-3 mx-auto" />
 
-                                        <?php
-                                        $query_3 = "SELECT comentario, nome 
+                                    <?php
+                                    $query_3 = "SELECT comentario, nome, comentarios.data_insercao 
                                             FROM comentarios
                                             INNER JOIN utilizadores
                                             ON ref_utilizadores = id_utilizadores
                                             WHERE ref_filmes = ?";
 
-                                        $stmt_3 = mysqli_stmt_init($link);
+                                    $stmt_3 = mysqli_stmt_init($link);
 
-                                        // Execute the prepared statement 
-                                        if (mysqli_stmt_prepare($stmt_3, $query_3)) {
-                                            // Bind result variables
-                                            mysqli_stmt_bind_param($stmt_3, "i", $id_filmes);
-                                            mysqli_stmt_execute($stmt_3);
+                                    // Execute the prepared statement 
+                                    if (mysqli_stmt_prepare($stmt_3, $query_3)) {
+                                        // Bind result variables
+                                        mysqli_stmt_bind_param($stmt_3, "i", $id_filmes);
+                                        mysqli_stmt_execute($stmt_3);
 
-                                            mysqli_stmt_store_result($stmt_3);
+                                        mysqli_stmt_store_result($stmt_3);
 
-                                            // Bind result variables
-                                            mysqli_stmt_bind_result($stmt_3, $comentario, $nome);
+                                        // Bind result variables
+                                        mysqli_stmt_bind_result($stmt_3, $comentario, $nome, $hora);
 
-                                            // Verifica se não há comentarios
-                                            if (mysqli_stmt_num_rows($stmt_3) == 0) {
-                                                echo 'Ainda sem comentários. Sê o primeiro!';
-                                            } else {
-                                                // Fetch values
-                                                while (mysqli_stmt_fetch($stmt_3)) {
-                                        ?>
-                                                    <p class="tipo-filme mb-0"><?php echo $nome . " - " . $comentario ?></p>
-                                        <?php
-                                                }
+                                        // Verifica se não há comentarios
+                                        if (mysqli_stmt_num_rows($stmt_3) == 0) {
+                                    ?>
+                                            <div class="card-body">
+                                                <h4 class="text-uppercase text-primary m-0 mt-2">Comentários</h4>
+                                                <hr class="my-3 mx-auto" />
+                                                <p class="tipo-filme mb-0">Ainda sem comentários. Sê o primeiro!</p>
+                                            </div>
+                                            <?php
+
+                                        } else {
+                                            // Fetch values
+                                            while (mysqli_stmt_fetch($stmt_3)) {
+                                            ?>
+                                                <div class="card-body">
+                                                    <h4 class="text-uppercase text-primary m-0 mt-2"><?php echo $nome ?></h4>
+                                                    <p class="tipo-filme mb-0"><?php echo $comentario ?></p>
+                                                    <p class="tipo-filme mb-0"><?php echo $hora ?></p>
+                                                </div>
+                                    <?php
                                             }
                                         }
-                                        mysqli_stmt_close($stmt_3);
-                                        ?>
-                                    </div>
+                                    }
+                                    mysqli_stmt_close($stmt_3);
+                                    ?>
+
                                 </div>
                                 <?php
                                 if (isset($_SESSION['id'])) {
