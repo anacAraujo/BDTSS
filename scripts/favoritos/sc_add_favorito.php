@@ -25,7 +25,7 @@ if (isset($_GET['id']) && isset($_SESSION['id'])) {
             echo "Error:" . mysqli_stmt_error($stmt);
         } else {
             /* Insert done */
-            header("Location: ../../filmes.php");
+            header("Location: ../../filme_detail.php?id=$id_filme.php");
         }
     } else {
         echo ("Error description: " . mysqli_error($link));
