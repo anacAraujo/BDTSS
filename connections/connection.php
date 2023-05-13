@@ -6,9 +6,9 @@ function new_db_connection()
     // Variables for the database connection
     if ($env == "localhost") {
         $hostname = 'localhost';
-        $username = "root";
-        $password = "";
-        $dbname = "top_indian_movies";
+        $username = "deca_23_BDTSS_37_web";
+        $password = "RuzMOg1A";
+        $dbname = "deca_23_BDTSS_37";
     }
 
     // Makes the connection
@@ -21,8 +21,6 @@ function new_db_connection()
 
     // Define charset to avoid special chars errors
     mysqli_set_charset($local_link, "utf8");
-
-   // echo "<h1>SUCESOOOOO</h1>";
 
     // Return the link
     return $local_link;
