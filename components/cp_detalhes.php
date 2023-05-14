@@ -69,10 +69,61 @@ if (isset($_GET["id"])) {
                                             }
                                         }
                                     }
-
                                     if (isset($_SESSION['perfil']) && $_SESSION['perfil'] == "1") {
                                         echo '<a href="edit_filme.php?id=' . $id_filmes . '"><b><i class="fa-solid fa-pen-to-square mx-2"></i></b></a>';
                                         echo '<a href="scripts/filmes/sc_delete_filme.php?id=' . $id_filmes . '"><b><i class="fa-solid fa-trash-can mx-2"></i></b></a>';
+                                    }
+                                    if (isset($_SESSION['id'])) {
+                                        $stmt_3 = mysqli_stmt_init($link);
+
+                                        $user = $_SESSION['id'];
+
+                                        // Define the query
+                                        $query_3 = "SELECT votacao
+                                                    FROM filmes_votacao
+                                                    INNER JOIN utilizadores
+                                                    ON utilizadores.id_utilizadores = filmes_votacao.ref_utilizadores
+                                                    INNER JOIN filmes
+                                                    ON filmes.id_filmes = filmes_votacao.ref_filmes
+                                                    WHERE id_utilizadores = ? AND id_filmes = ?";
+
+                                        // Prepare the statement
+                                        if (mysqli_stmt_prepare($stmt_3, $query_3)) {
+
+                                            mysqli_stmt_bind_param($stmt_3, 'ii', $_user, $id_filmes);
+
+                                            // Execute the prepared statement
+                                            if (mysqli_stmt_execute($stmt_3)) {
+                                                // Bind result variables
+                                                mysqli_stmt_bind_result($stmt_3, $votacao);
+
+                                                mysqli_stmt_store_result($stmt_3);
+
+                                                if (mysqli_stmt_num_rows($stmt_3) == 0) {
+                                    ?>
+                                                    <form class="col-6" action="./scripts/filmes/sc_votacao_filme.php?id=<?php echo $id_filmes; ?>" method="post">
+                                                        <div class="mb-3 mt-3"><label for="uname" class="form-label">Avalie o filme:</label><input type="number" class="form-control" id="votacao" value="" name="votacao" min="1" max="10" step="1" value="">
+                                                            <div class="valid-feedback">Valid.</div>
+                                                            <div class="invalid-feedback">Please fill out this field.</div>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Inserir</button>
+                                                    </form>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <p class="tipo-filme mb-0"><?php echo $votacao ?></p>
+                                    <?php
+                                                }
+                                            } else {
+                                                // Execute error
+                                                echo "Error: " . mysqli_stmt_error($stmt_3);
+                                            }
+                                        } else {
+                                            // Errors related with the query
+                                            echo "Error: " . mysqli_error($link);
+                                        }
+                                        // Close statement
+                                        mysqli_stmt_close($stmt_3);
                                     }
                                     ?>
                                 </h4>
@@ -92,27 +143,27 @@ if (isset($_GET["id"])) {
                                 <div class="card pb-2 mt-4 shadow rounded">
 
                                     <?php
-                                    $query_3 = "SELECT comentario, nome, comentarios.data_insercao 
+                                    $query_4 = "SELECT comentario, nome, comentarios.data_insercao 
                                             FROM comentarios
                                             INNER JOIN utilizadores
                                             ON ref_utilizadores = id_utilizadores
                                             WHERE ref_filmes = ?";
 
-                                    $stmt_3 = mysqli_stmt_init($link);
+                                    $stmt_4 = mysqli_stmt_init($link);
 
                                     // Execute the prepared statement 
-                                    if (mysqli_stmt_prepare($stmt_3, $query_3)) {
+                                    if (mysqli_stmt_prepare($stmt_4, $query_4)) {
                                         // Bind result variables
-                                        mysqli_stmt_bind_param($stmt_3, "i", $id_filmes);
-                                        mysqli_stmt_execute($stmt_3);
+                                        mysqli_stmt_bind_param($stmt_4, "i", $id_filmes);
+                                        mysqli_stmt_execute($stmt_4);
 
-                                        mysqli_stmt_store_result($stmt_3);
+                                        mysqli_stmt_store_result($stmt_4);
 
                                         // Bind result variables
-                                        mysqli_stmt_bind_result($stmt_3, $comentario, $nome, $hora);
+                                        mysqli_stmt_bind_result($stmt_4, $comentario, $nome, $hora);
 
                                         // Verifica se não há comentarios
-                                        if (mysqli_stmt_num_rows($stmt_3) == 0) {
+                                        if (mysqli_stmt_num_rows($stmt_4) == 0) {
                                     ?>
                                             <div class="card-body">
                                                 <h4 class="text-uppercase text-primary m-0 mt-2">Comentários</h4>
@@ -123,7 +174,7 @@ if (isset($_GET["id"])) {
 
                                         } else {
                                             // Fetch values
-                                            while (mysqli_stmt_fetch($stmt_3)) {
+                                            while (mysqli_stmt_fetch($stmt_4)) {
                                             ?>
                                                 <div class="card-body">
                                                     <h4 class="text-uppercase text-primary m-0 mt-2"><?php echo $nome ?></h4>
@@ -134,7 +185,7 @@ if (isset($_GET["id"])) {
                                             }
                                         }
                                     }
-                                    mysqli_stmt_close($stmt_3);
+                                    mysqli_stmt_close($stmt_4);
                                     ?>
 
                                 </div>
