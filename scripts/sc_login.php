@@ -9,8 +9,10 @@ if (isset($_POST["login"]) && isset($_POST["password"])) {
 
     $stmt = mysqli_stmt_init($link);
 
-    $query = "SELECT id_utilizadores, login, id_perfis, password_hash FROM utilizadores
-    INNER JOIN perfis ON id_perfis = ref_perfis
+    $query = "SELECT id_utilizadores, login, id_perfis, password_hash 
+    FROM utilizadores
+    INNER JOIN perfis 
+    ON id_perfis = ref_perfis
     WHERE login LIKE ?";
 
     if (mysqli_stmt_prepare($stmt, $query)) {
@@ -27,7 +29,6 @@ if (isset($_POST["login"]) && isset($_POST["password"])) {
                     $_SESSION["id"] = $id_user;
                     $_SESSION["login"] = $login;
                     $_SESSION["perfil"] = $perfil;
-
 
                     // Feedback de sucesso
                     header("Location: ../index.php");
