@@ -18,7 +18,7 @@
                         <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
-                    </div><button type="submit" class="btn btn-primary">Submit</button>
+                    </div><button type="submit" class="btn btn-primary">Entrar</button>
                 </form>
             </div>
         </div>
