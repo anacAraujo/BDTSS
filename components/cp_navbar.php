@@ -34,7 +34,7 @@ if (isset($_SESSION['login'])) {
                 <?php
                 }
                 ?>
-
+                <li class="nav-item"><a class="nav-link" href="ranking.php">Ranking</a></li>
                 <li class="nav-item"><a class="nav-link" href=<?= $path ?>><i class="fa-regular fa-user"></i>
                         <?php echo $login ?>
                     </a></li>
