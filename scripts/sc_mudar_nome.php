@@ -1,15 +1,13 @@
 <?php
 session_start();
 
-var_dump($_POST["username"]);
-var_dump($_SESSION);
-
 if (isset($_POST["username"]) && ($_POST["username"] != "") && (isset($_SESSION["id"]))) {
     $username = $_POST["username"];
     $id = $_SESSION["id"];
+    $_SESSION['login'] = $_POST["username"];
 
     // We need the function!
-    require_once("../../connections/connection.php");
+    require_once("../connections/connection.php");
 
     // Create a new DB connection
     $link = new_db_connection();
@@ -29,8 +27,7 @@ if (isset($_POST["username"]) && ($_POST["username"] != "") && (isset($_SESSION[
             echo "Error:" . mysqli_stmt_error($stmt);
         } else {
             /* Update done */
-            echo "aaaa";
-            //   header("Location: ../../index.php");
+            header("Location: ../index.php");
         }
     } else {
         echo ("Error description: " . mysqli_error($link));
